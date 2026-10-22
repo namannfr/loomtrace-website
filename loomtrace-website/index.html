@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Loomtrace</title>
+<meta name="description" content="Loomtrace is developing buyer-side software to help apparel brands identify orders that may have been produced outside their declared factory.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+<!-- Shared icon sprites -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-info" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5v.01"/></symbol>
+    <symbol id="i-flag" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 21V4M5 4h11l-2 4 2 4H5"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></symbol>
+    <symbol id="i-minus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 12h12"/></symbol>
+    <symbol id="i-plus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></symbol>
+    <symbol id="i-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+    <symbol id="i-down" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M6 13l6 6 6-6"/></symbol>
+    <symbol id="i-doc" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3h7l5 5v13H7z"/><path d="M14 3v5h5M10 13h6M10 17h6"/></symbol>
+    <symbol id="i-factory" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21V10l6 4v-4l6 4V5h4l2 16z"/><path d="M8 18h2M13 18h2"/></symbol>
+    <symbol id="i-gauge" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 18a8 8 0 1 1 16 0"/><path d="M12 18l4-6"/></symbol>
+    <symbol id="i-trail" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="2"/><circle cx="18" cy="12" r="2"/><circle cx="6" cy="18" r="2"/><path d="M8 6h4a4 4 0 0 1 4 4M16 14a4 4 0 0 1-4 4H8"/></symbol>
+    <symbol id="i-split" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h6l4-6h6M10 12l4 6h6"/><path d="M18 4l2 2-2 2M18 16l2 2-2 2"/></symbol>
+    <symbol id="i-layers" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l9 5-9 5-9-5z"/><path d="M3 13l9 5 9-5"/></symbol>
+    <symbol id="i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/></symbol>
+    <symbol id="i-person" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.5"/><path d="M5 20a7 7 0 0 1 14 0"/></symbol>
+    <symbol id="i-eye" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12z"/><circle cx="12" cy="12" r="2.8"/></symbol>
+    <symbol id="i-lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="10.5" width="14" height="10" rx="2"/><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5"/></symbol>
+    <symbol id="i-folder" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M8 13h8"/></symbol>
+    <symbol id="i-chat" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v11H9l-5 4z"/><path d="M8 10h8"/></symbol>
+    <symbol id="i-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></symbol>
+    <symbol id="i-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></symbol>
+    <symbol id="logo" viewBox="0 0 32 32" fill="none" stroke-linecap="round">
+      <path d="M8 4v24M14 4v24M20 4v24" stroke="currentColor" stroke-width="2.2"/>
+      <path d="M4 12h18" stroke="currentColor" stroke-width="2.2" opacity=".45"/>
+      <path d="M4 20h14c4 0 5-3 7-6l3-4" stroke="#D6A04A" stroke-width="2.4"/>
+      <circle cx="28" cy="10" r="2.2" fill="#D6A04A"/>
+    </symbol>
+  </defs>
+</svg>
+
+<a href="#overview" class="sr-only">Skip to content</a>
+
+<header class="nav" id="nav">
+  <div class="wrap nav-in">
+    <a class="brand" href="#top" aria-label="Loomtrace, back to top"><svg><use href="#logo"/></svg>Loomtrace</a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#overview">Overview</a></li>
+      <li><a href="#how">How It Works</a></li>
+      <li><a href="#innovation">Innovation</a></li>
+      <li><a href="#responsible">Responsible Use</a></li>
+      <li><a href="#roadmap">Roadmap</a></li>
+      <li><a href="#founder">Founder</a></li>
+      <li class="m-cta"><a href="#partner">Discuss a Design Partnership</a></li>
+    </ul>
+    <a class="btn btn-primary nav-cta" href="#partner">Discuss a Design Partnership</a>
+    <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="navLinks" aria-label="Open menu"><svg><use href="#i-menu"/></svg></button>
+  </div>
+</header>
+
+<main id="top">
+
+<!-- HERO -->
+<section class="hero" aria-labelledby="hero-h">
+  <div class="wrap hero-grid">
+    <div class="hero-copy">
+      <span class="label eyebrow">Buyer-side inference of undeclared sourcing risk</span>
+      <h1 id="hero-h">See the sourcing risk hidden in the <em>order book.</em></h1>
+      <p class="lead">Loomtrace is developing buyer-side software to help apparel brands identify orders that may have been produced outside their declared factory, using the commercial records they already hold.</p>
+      <div class="hero-ctas">
+        <a class="btn btn-primary" href="#partner">Discuss a Design Partnership <svg><use href="#i-arrow"/></svg></a>
+        <a class="btn btn-ghost" href="#how">Explore How It Works <svg><use href="#i-down"/></svg></a>
+      </div>
+      <p class="hero-status"><span class="pulse" aria-hidden="true"></span><span><strong>In development.</strong> Loomtrace is at concept and validation stage. Its risk signals are designed to guide human investigation. They do not establish wrongdoing by any supplier.</span></p>
+    </div>
+
+    <div class="trace" role="img" aria-label="Illustration: an order record linked to its declared factory, a capacity signal showing booked volume above plausible capacity, and an evidence trail for human review.">
+      <div class="trace-top">
+        <span class="label">One order, traced</span>
+        <span class="tag">Illustrative</span>
+      </div>
+      <ol class="trace-list">
+        <li class="t-node teal">
+          <span class="t-pin"><svg><use href="#i-doc"/></svg></span>
+          <div class="t-card">
+            <div class="t-row"><span class="t-title">Order record</span><span class="tag teal">Buyer-held</span></div>
+            <dl class="t-kv">
+              <div><dt>PO</dt><dd>PO-24117</dd></div>
+              <div><dt>Quantity</dt><dd>48,000 pcs</dd></div>
+              <div><dt>Lead time</dt><dd>94 days</dd></div>
+            </dl>
+          </div>
+        </li>
+        <li class="t-node">
+          <span class="t-pin"><svg><use href="#i-factory"/></svg></span>
+          <div class="t-card">
+            <div class="t-row"><span class="t-title">Declared factory</span><span class="tag">Approved · Audited</span></div>
+            <p class="muted" style="font-size:.84rem">Meridian Knitwear (fictional), matched to a public registry record. Supplier declaration: <b style="color:var(--ink)">“Produced at Meridian Knitwear.”</b></p>
+          </div>
+        </li>
+        <li class="t-node amber">
+          <span class="t-pin"><svg><use href="#i-gauge"/></svg></span>
+          <div class="t-card">
+            <div class="t-row"><span class="t-title">Capacity signal</span><span class="tag amber"><span class="dot"></span>Review suggested</span></div>
+            <div class="cap-bar" aria-hidden="true"><div class="cap-fill"></div><div class="cap-over"></div><div class="cap-line"></div></div>
+            <div class="cap-legend"><span>Booked load, March</span><span>Plausible capacity ▲</span></div>
+          </div>
+        </li>
+        <li class="t-node teal">
+          <span class="t-pin"><svg><use href="#i-trail"/></svg></span>
+          <div class="t-card">
+            <div class="t-row"><span class="t-title">Evidence trail</span><span class="tag">Human review</span></div>
+            <div class="ev-steps"><span class="on">Signals explained</span><span class="on">Reviewer assigned</span><span>Findings recorded</span></div>
+          </div>
+        </li>
+      </ol>
+      <p class="trace-foot"><svg><use href="#i-info"/></svg>Fictional names and sample values. A signal is a reason to look closer. It is not a finding.</p>
+    </div>
+  </div>
+</section>
+
+<!-- PROBLEM -->
+<section id="overview" aria-labelledby="problem-h" style="padding-top:clamp(2rem,5vw,4rem)">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="label eyebrow">The problem</span>
+      <h2 id="problem-h">An approved factory does not always tell the whole story.</h2>
+      <p>Apparel buyers manage supplier risk through the factory named on the purchase order. They audit it, rate it and publish it. When that factory is over-booked, squeezed on price or short on time, some work may move to another facility without the buyer knowing. That second site has not been audited.</p>
+    </div>
+
+    <div class="problem-grid">
+      <article class="p-card">
+        <span class="p-icon"><svg><use href="#i-split"/></svg></span>
+        <h3>Undeclared subcontracting</h3>
+        <p>Orders may be transferred to facilities the buyer has not approved or assessed.</p>
+        <p class="consequence">Exposure the buyer cannot see from its own approved-supplier list.</p>
+      </article>
+      <article class="p-card">
+        <span class="p-icon"><svg><use href="#i-gauge"/></svg></span>
+        <h3>Capacity blind spots</h3>
+        <p>A factory's recorded capacity may not look consistent with the volume or timing of its orders.</p>
+        <p class="consequence">A clean audit can sit alongside output the site could not plausibly produce.</p>
+      </article>
+      <article class="p-card">
+        <span class="p-icon"><svg><use href="#i-layers"/></svg></span>
+        <h3>Fragmented evidence</h3>
+        <p>Order records, shipping information, factory registries and audit reports sit in separate systems.</p>
+        <p class="consequence">Reconciliation is manual, slow and rarely repeated across the supplier base.</p>
+      </article>
+      <article class="p-card">
+        <span class="p-icon"><svg><use href="#i-search"/></svg></span>
+        <h3>Difficult investigations</h3>
+        <p>Compliance teams need understandable reasons to prioritise an investigation and to document it.</p>
+        <p class="consequence">Unexplained alerts get challenged, internally and by suppliers.</p>
+      </article>
+    </div>
+
+    <div class="research">
+      <div class="big">&gt;1 in 3<small>orders, in one published study</small></div>
+      <div class="research-body">
+        <span class="label">What published research shows</span>
+        <p>A study in <i>Management Science</i> examined more than 32,000 orders placed by over 30 apparel companies with more than 220 factories. It found that more than one third of orders were subcontracted without authorisation, and that the behaviour followed patterns visible in the buyer's own data, such as below-usual prices, lead times and product type.</p>
+        <p class="note"><svg><use href="#i-info"/></svg><span>These are the study's findings, not Loomtrace results. The study sample is not specific to Bangladesh, so how well its findings transfer to that corridor is something Loomtrace must test.</span></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section id="how" class="band" aria-labelledby="how-h">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="label eyebrow">How Loomtrace is intended to work</span>
+      <h2 id="how-h">From existing records to actionable questions.</h2>
+      <p>The proposed workflow has four stages. Select a stage to see what happens in it. This describes the product being designed, not a system in operation today.</p>
+    </div>
+
+    <div class="flow">
+      <ol class="steps" role="tablist" aria-label="Workflow stages" aria-orientation="vertical">
+        <li><button class="step-btn" role="tab" id="st-1" aria-controls="stage" aria-selected="true" data-step="0"><span class="step-num">01</span><span><h3>Ingest</h3><p>The buyer supplies its order history and shipping records.</p></span></button></li>
+        <li><button class="step-btn" role="tab" id="st-2" aria-controls="stage" aria-selected="false" tabindex="-1" data-step="1"><span class="step-num">02</span><span><h3>Reconcile</h3><p>Supplier records are matched to real factories and their capacity.</p></span></button></li>
+        <li><button class="step-btn" role="tab" id="st-3" aria-controls="stage" aria-selected="false" tabindex="-1" data-step="2"><span class="step-num">03</span><span><h3>Assess</h3><p>A statistical approach looks for patterns linked to undeclared production.</p></span></button></li>
+        <li><button class="step-btn" role="tab" id="st-4" aria-controls="stage" aria-selected="false" tabindex="-1" data-step="3"><span class="step-num">04</span><span><h3>Explain and investigate</h3><p>Each alert shows its reasons; people review and record findings.</p></span></button></li>
+      </ol>
+
+      <div class="stage" id="stage" role="tabpanel" aria-labelledby="st-1" aria-live="polite"></div>
+    </div>
+
+    <div class="flow-foot">
+      <div><b>No supplier data entry</b><span>The core product works from records the buyer already controls.</span></div>
+      <div><b>One focused module first</b><span>The first version is the smallest system that could produce a signal a compliance team would act on.</span></div>
+      <div><b>Software, not services</b><span>Loomtrace does not intend to run audits, customs brokerage or bespoke consulting.</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- PRODUCT PREVIEW -->
+<section id="preview" aria-labelledby="preview-h">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="label eyebrow">Product preview</span>
+      <h2 id="preview-h">What a reviewer could see.</h2>
+      <p>A sourcing or ethical-trade manager would open a queue of orders, see why each one was raised, check the factory's context and keep a record of what the investigation found. Select an order, then switch views.</p>
+    </div>
+
+    <div class="preview-label"><svg><use href="#i-info"/></svg>Illustrative product preview. Not live data or validated model output. All names and figures are fictional.</div>
+    <div class="app" id="app">
+      <div class="app-bar">
+        <span class="brand"><svg><use href="#logo"/></svg>Loomtrace</span>
+        <span class="crumb">Review queue · Bangladesh suppliers · Sample workspace</span>
+        <div class="seg" role="tablist" aria-label="Preview view">
+          <button role="tab" aria-selected="true" data-view="signals" id="v-signals">Order signals</button>
+          <button role="tab" aria-selected="false" data-view="factory" id="v-factory" tabindex="-1">Factory context</button>
+          <button role="tab" aria-selected="false" data-view="evidence" id="v-evidence" tabindex="-1">Investigation evidence</button>
+        </div>
+      </div>
+      <div class="app-body">
+        <aside class="queue" aria-label="Order queue">
+          <div class="queue-head"><span class="label">Order queue</span><span class="tag">4 items</span></div>
+          <ul class="queue-list" id="queue" role="listbox" aria-label="Orders"></ul>
+        </aside>
+        <div class="detail" id="detail" aria-live="polite"></div>
+      </div>
+      <div class="app-foot"><svg><use href="#i-info"/></svg>Alerts in the intended product are prompts for internal review. Nothing is sent to suppliers, and the buyer decides what to investigate.</div>
+    </div>
+  </div>
+</section>
+
+<!-- INNOVATION -->
+<section id="innovation" aria-labelledby="inn-h" style="background:var(--surface);border-block:1px solid var(--line)">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="label eyebrow">What makes Loomtrace different</span>
+      <h2 id="inn-h">A different way to examine supply-chain risk.</h2>
+      <p>Most supply-chain tools depend on what suppliers declare or what an auditor saw on the day. Loomtrace starts from the buyer's own commercial records to ask what may not have been declared. The science draws on peer-reviewed research; applying it as a commercial product for apparel sourcing is the step Loomtrace is taking.</p>
+    </div>
+
+    <div class="pillars">
+      <article class="pillar" style="background:var(--paper)">
+        <div class="pillar-top"><span class="p-icon"><svg><use href="#i-doc"/></svg></span><span class="tag teal">Initial product</span></div>
+        <h3>Buyer-side inference</h3>
+        <p>The proposed product analyses records the buyer already holds rather than depending entirely on supplier declarations. Because suppliers do not need to onboard, time to a first result is intended to be short.</p>
+      </article>
+      <article class="pillar" style="background:var(--paper)">
+        <div class="pillar-top"><span class="p-icon"><svg><use href="#i-factory"/></svg></span><span class="tag teal">Initial product</span></div>
+        <h3>Factory identity and capacity</h3>
+        <p>Matching supplier names to real factories, across English and Bengali sources, and examining plausible capacity month by month are central to the design. Without a reliable factory identity, no order can be tied to real capacity.</p>
+      </article>
+      <article class="pillar" style="background:var(--paper)">
+        <div class="pillar-top"><span class="p-icon"><svg><use href="#i-trail"/></svg></span><span class="tag teal">Initial product</span></div>
+        <h3>Explainable evidence</h3>
+        <p>Potential alerts are intended to show the signals behind them, and every review decision is kept as a dated record. Teams can then explain why a supplier was escalated and what supported that decision.</p>
+      </article>
+      <article class="pillar future">
+        <div class="pillar-top"><span class="p-icon"><svg><use href="#i-layers"/></svg></span><span class="tag">Planned, not a current feature</span></div>
+        <h3>A network effect with multiple buyers</h3>
+        <p>A factory serves several brands, and each sees only its own orders. Loomtrace proposes a privacy-conscious way to understand a factory's combined load across participating buyers, with each buyer seeing a utilisation band and never another brand's orders or prices.</p>
+      </article>
+    </div>
+
+    <div class="horizon">
+      <div>
+        <span class="label">The initial product</span>
+        <h3>One focused module: subcontracting-risk review for a single buyer</h3>
+        <ul>
+          <li>Buyer order history ingested and checked</li>
+          <li>Supplier records matched to factory identities, with human review of uncertain matches</li>
+          <li>Orders assessed against plausible capacity and known risk patterns</li>
+          <li>Alert queue with reasons, investigation record and exportable evidence pack</li>
+        </ul>
+      </div>
+      <div>
+        <span class="label">The longer-term vision</span>
+        <h3>Capabilities that depend on evidence, partners and review</h3>
+        <ul>
+          <li>Pre-order view showing how price and lead-time terms could affect risk before an order is placed</li>
+          <li>Cross-buyer capacity view, subject to legal and privacy review and at least two participating buyers</li>
+          <li>Free feedback portal for factories, in Bengali and English</li>
+          <li>Further sourcing corridors, starting from where customers source most</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="compare">
+      <table>
+        <thead><tr><th scope="col">Approach</th><th scope="col">Main input</th><th scope="col">What it is built to show</th><th scope="col">How Loomtrace relates</th></tr></thead>
+        <tbody>
+          <tr><th scope="row">Traceability platforms</th><td>Supplier-declared chain data</td><td>Declared multi-tier visibility and provenance</td><td class="lt">Tests declarations against order data</td></tr>
+          <tr><th scope="row">Audit-based risk tools</th><td>Audits and assessments</td><td>Risk views drawn from what auditors observed</td><td class="lt">Checks consistency with production behaviour</td></tr>
+          <tr><th scope="row">Trade intelligence</th><td>Shipment and customs data</td><td>Who trades with whom</td><td class="lt">Works at order level, from the buyer's own book</td></tr>
+          <tr><th scope="row">Loomtrace (in development)</th><td>The buyer's order, price, lead-time and shipping records</td><td>Which orders may warrant investigation, and why</td><td class="lt">Designed as an added layer alongside the above</td></tr>
+        </tbody>
+        <caption>Categories are described from public information at a general level. Loomtrace does not claim to be the first or only company working on this problem.</caption>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- WHO BENEFITS -->
+<section id="benefits" aria-labelledby="ben-h">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="label eyebrow">Who benefits</span>
+      <h2 id="ben-h">Built for the people who carry the question.</h2>
+      <p>Each description below is an intended use. None of these outcomes has been demonstrated yet; the pilot stage exists to test them.</p>
+    </div>
+    <div class="tabs" role="tablist" aria-label="Stakeholders" id="audTabs"></div>
+    <div id="audPanel" role="tabpanel"></div>
+  </div>
+</section>
+
+<!-- RESPONSIBLE USE -->
+<section id="responsible" aria-labelledby="resp-h" style="background:var(--surface);border-block:1px solid var(--line)">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="label eyebrow">Responsible use and trust</span>
+      <h2 id="resp-h">Evidence that supports judgement. Never replaces it.</h2>
+      <p>Loomtrace would handle commercially sensitive data and produce signals that could affect supplier relationships. These safeguards are design intentions, built into the product plan from the start.</p>
+    </div>
+
+    <div class="trust-grid">
+      <article class="trust"><span class="p-icon"><svg><use href="#i-person"/></svg></span><h3>Human review</h3><p>Potential risk signals are intended to be investigated by people before any conclusion is drawn.</p></article>
+      <article class="trust"><span class="p-icon"><svg><use href="#i-eye"/></svg></span><h3>Explainability</h3><p>Each alert shows the reasons behind it, rather than presenting an unexplained score.</p></article>
+      <article class="trust"><span class="p-icon"><svg><use href="#i-lock"/></svg></span><h3>Privacy-conscious design</h3><p>Each buyer's data is intended to be held separately and never shown to another brand. Worker-level data would stay with the factory; only aggregates would be used.</p></article>
+      <article class="trust"><span class="p-icon"><svg><use href="#i-folder"/></svg></span><h3>Careful evidence handling</h3><p>Evidence packs are intended to support internal diligence. Loomtrace does not claim that an evidence pack satisfies any legal or regulatory requirement; that would need legal review.</p></article>
+      <article class="trust"><span class="p-icon"><svg><use href="#i-chat"/></svg></span><h3>Non-accusatory communication</h3><p>Loomtrace flags anomalies for investigation. It does not label a factory as guilty or non-compliant on the basis of a software output, and it does not name factories publicly.</p></article>
+    </div>
+
+    <div class="means">
+      <div class="is">
+        <h3>What a Loomtrace alert is intended to mean</h3>
+        <ul>
+          <li><svg><use href="#i-check"/></svg>The buyer's records contain patterns worth a closer look</li>
+          <li><svg><use href="#i-check"/></svg>Here are the signals behind it, and a suggested next step</li>
+          <li><svg><use href="#i-check"/></svg>A reviewer decides what to do and records the outcome</li>
+        </ul>
+      </div>
+      <div class="isnt">
+        <h3>What it does not mean</h3>
+        <ul>
+          <li><svg><use href="#i-minus"/></svg>That a supplier has subcontracted or broken any rule</li>
+          <li><svg><use href="#i-minus"/></svg>That the buyer has met a legal or regulatory obligation</li>
+          <li><svg><use href="#i-minus"/></svg>That detection is guaranteed, or that a factory with no alert is clean</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="complement">
+      <div class="stack" aria-hidden="true"><span></span><span></span><span></span></div>
+      <p><strong>A complement, not a replacement.</strong>Loomtrace is intended to sit alongside existing audits, traceability platforms and due-diligence processes. A buyer keeps those tools and uses Loomtrace to test whether what they report is consistent with its own order data.</p>
+    </div>
+  </div>
+</section>
+
+<!-- MARKET -->
+<section id="market" aria-labelledby="mkt-h">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="label eyebrow">Market context and why now</span>
+      <h2 id="mkt-h">The buying decisions are made in the UK. The production happens in Bangladesh.</h2>
+      <p>Loomtrace is starting with UK apparel retailers and brands that source from Bangladesh. That is where its future users sit, where public factory registries exist to match against, and where a single corridor keeps the data work manageable.</p>
+    </div>
+
+    <div class="market-grid">
+      <div class="stats">
+        <div class="stat"><span class="v">£3.3bn</span><span class="d">UK clothing imports from Bangladesh, up 15.5% on the previous year</span><span class="s">12 months to March 2026 · Department for Business and Trade</span></div>
+        <div class="stat"><span class="v">92%</span><span class="d">Clothing's share of UK goods imports from Bangladesh</span><span class="s">Department for Business and Trade factsheet, 31 July 2026</span></div>
+        <div class="stat"><span class="v">3,723</span><span class="d">Export-oriented garment factories mapped in Bangladesh, 969 of them outside the two main trade associations</span><span class="s">2022 census, Mapped in Bangladesh, as reported by The Business Standard</span></div>
+      </div>
+
+      <div class="corridor">
+        <span class="label">Sourcing corridors</span>
+        <svg viewBox="0 0 520 300" role="img" aria-label="Diagram: the UK and Bangladesh connected as the initial corridor; EU buyers and India, Pakistan and Vietnam shown as possible later expansion.">
+          <g font-family="IBM Plex Mono, monospace" font-size="11">
+            <!-- buyers -->
+            <rect x="20" y="40" width="130" height="54" rx="8" fill="var(--teal-soft)" stroke="var(--teal)"/>
+            <text x="85" y="63" text-anchor="middle" fill="var(--ink)" font-family="Manrope, sans-serif" font-weight="700" font-size="14">UK buyers</text>
+            <text x="85" y="80" text-anchor="middle" fill="var(--teal)">INITIAL</text>
+            <rect x="20" y="190" width="130" height="54" rx="8" fill="var(--surface)" stroke="var(--slate)" stroke-dasharray="4 4"/>
+            <text x="85" y="213" text-anchor="middle" fill="var(--ink)" font-family="Manrope, sans-serif" font-weight="700" font-size="14">EU buyers</text>
+            <text x="85" y="230" text-anchor="middle" fill="var(--slate)">NEXT</text>
+            <!-- sourcing -->
+            <rect x="350" y="40" width="150" height="54" rx="8" fill="var(--teal-soft)" stroke="var(--teal)"/>
+            <text x="425" y="63" text-anchor="middle" fill="var(--ink)" font-family="Manrope, sans-serif" font-weight="700" font-size="14">Bangladesh</text>
+            <text x="425" y="80" text-anchor="middle" fill="var(--teal)">FIRST CORRIDOR</text>
+            <rect x="350" y="150" width="150" height="34" rx="8" fill="var(--surface)" stroke="var(--slate)" stroke-dasharray="4 4"/>
+            <text x="425" y="171" text-anchor="middle" fill="var(--ink-2)" font-family="Manrope, sans-serif" font-weight="600" font-size="13">India</text>
+            <rect x="350" y="194" width="150" height="34" rx="8" fill="var(--surface)" stroke="var(--slate)" stroke-dasharray="4 4"/>
+            <text x="425" y="215" text-anchor="middle" fill="var(--ink-2)" font-family="Manrope, sans-serif" font-weight="600" font-size="13">Pakistan</text>
+            <rect x="350" y="238" width="150" height="34" rx="8" fill="var(--surface)" stroke="var(--slate)" stroke-dasharray="4 4"/>
+            <text x="425" y="259" text-anchor="middle" fill="var(--ink-2)" font-family="Manrope, sans-serif" font-weight="600" font-size="13">Vietnam</text>
+            <!-- links -->
+            <path d="M150 67 H350" stroke="var(--teal)" stroke-width="2.2" fill="none"/>
+            <circle r="4" fill="var(--teal)"><animateMotion dur="3.2s" repeatCount="indefinite" path="M150 67 H350"/></circle>
+            <path d="M150 217 C250 217 250 67 350 67" stroke="var(--slate)" stroke-width="1.4" stroke-dasharray="5 5" fill="none"/>
+            <path d="M150 80 C260 90 250 167 350 167 M150 85 C260 110 250 211 350 211 M150 90 C260 130 250 255 350 255" stroke="var(--slate)" stroke-width="1.2" stroke-dasharray="3 5" fill="none" opacity=".8"/>
+            <text x="250" y="57" text-anchor="middle" fill="var(--ink-2)">ORDERS · SHIPMENTS</text>
+            <text x="425" y="140" text-anchor="middle" fill="var(--slate)" font-size="10">SUBJECT TO VALIDATION</text>
+          </g>
+        </svg>
+        <div class="legend"><span><i></i>Initial focus</span><span><i class="d"></i>Possible later expansion</span></div>
+        <p class="note"><svg><use href="#i-info"/></svg><span>Bangladesh accounts for a little under one fifth of UK clothing imports by value, comparing the figure above with ONS data for calendar 2025 (£17.7bn, all origins). The periods differ by three months, so this is an approximation.</span></p>
+      </div>
+    </div>
+
+    <div class="reg">
+      <h3>Evidence-based due diligence is gaining attention</h3>
+      <p>Regulators and boards increasingly ask whether a company has tested its supply chain, not only collected supplier declarations. The summary below is dated and factual. It is not legal advice, and it separates rules in force from proposals.</p>
+      <ul class="reg-list">
+        <li class="reg-item"><time>2015</time><span class="tag teal">In force</span><p><b>UK Modern Slavery Act 2015.</b> Large UK businesses with turnover of £36 million or more publish annual modern slavery statements.</p></li>
+        <li class="reg-item"><time>30 Jun 2026</time><span class="tag amber">Proposed</span><p><b>Government amendments introduced.</b> They would make statement content mandatory, require board approval and a director's declaration of accuracy, and introduce penalties of up to the greater of £1 million or 1% of turnover. The Bill is before Parliament and is not yet law.</p></li>
+        <li class="reg-item"><time>14 Dec 2027</time><span class="tag teal">Adopted, applies from</span><p><b>EU Forced Labour Regulation.</b> Applies to every company placing goods on the EU market, with no size threshold, including UK retailers selling into the EU.</p></li>
+        <li class="reg-item"><time>Jul 2029</time><span class="tag">Narrowed</span><p><b>EU corporate due diligence directive.</b> Narrowed in 2026 to the largest companies and now due to apply from July 2029.</p></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ROADMAP -->
+<section id="roadmap" aria-labelledby="road-h" style="background:var(--surface);border-block:1px solid var(--line)">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="label eyebrow">Planned development</span>
+      <h2 id="road-h">Building the evidence before expanding the platform.</h2>
+      <p>Each stage is meant to reduce the largest remaining risk before more is built. These are planned stages, not completed milestones, and the order matters more than any date.</p>
+    </div>
+
+    <div class="road">
+      <div class="r-stage">
+        <span class="r-pin">1</span>
+        <div class="r-card">
+          <span class="label">Stage 1 · Current focus</span>
+          <h3>Validate the core product</h3>
+          <p>Confirm that the problem, the data and the method hold up with real buyers.</p>
+          <ul>
+            <li>Buyer demand, through interviews with sourcing and compliance leads</li>
+            <li>Access to real order data from a willing buyer</li>
+            <li>Factory identity matching against public registries</li>
+            <li>Model performance tested on cases with known outcomes</li>
+          </ul>
+          <div class="r-q"><b>Question to answer</b>Do buyers have this problem, the data and a budget owner, and can the method separate known cases from clean orders?</div>
+        </div>
+      </div>
+      <div class="r-stage">
+        <span class="r-pin">2</span>
+        <div class="r-card">
+          <span class="label">Stage 2</span>
+          <h3>Demonstrate buyer value</h3>
+          <p>Show that alerts are useful inside a real investigation workflow.</p>
+          <ul>
+            <li>Work with an initial design partner</li>
+            <li>Assess potential alerts in a live investigation workflow</li>
+            <li>Pursue a paid pilot if validation supports it</li>
+          </ul>
+          <div class="r-q"><b>Question to answer</b>Will a buyer act on the alerts, and will it pay for the product on a recurring basis?</div>
+        </div>
+      </div>
+      <div class="r-stage">
+        <span class="r-pin">3</span>
+        <div class="r-card">
+          <span class="label">Stage 3</span>
+          <h3>Explore network capabilities</h3>
+          <p>Subject to evidence and appropriate legal and privacy review.</p>
+          <ul>
+            <li>Investigate cross-buyer factory-capacity information</li>
+            <li>Consider additional sourcing corridors</li>
+            <li>Consider EU buyers</li>
+          </ul>
+          <div class="r-q"><b>Question to answer</b>Can buyers sharing factories pool insight safely, and does the approach transfer to another country?</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="gate-note">
+      <div><b>Pass</b>Move to the next stage with the evidence recorded.</div>
+      <div><b>Rework</b>Change the features, data or target customer, then test again.</div>
+      <div><b>Stop selling</b>If the model does not separate known cases well enough, selling pauses until it does.</div>
+    </div>
+  </div>
+</section>
+
+<!-- FOUNDER -->
+<section id="founder" aria-labelledby="fdr-h">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="label eyebrow">Founder</span>
+      <h2 id="fdr-h">The person building Loomtrace.</h2>
+      <p>Md Shah Romel Khan is a data engineer by training. Loomtrace starts with one hard job: taking records from several inconsistent sources, resolving them into one trustworthy dataset and building the analysis on top. That is the work he is doing himself.</p>
+    </div>
+
+    <div class="founder">
+      <div>
+        <div class="portrait has-photo" id="founderPortrait">
+          <img src="images/founder.jpg" alt="Portrait of Md Shah Romel Khan" width="480" height="480">
+        </div>
+        <div class="f-name">
+          <h3>Md Shah Romel Khan</h3>
+          <span class="muted">Founder, Loomtrace · Colchester, Essex</span>
+        </div>
+        <ul class="f-facts">
+          <li><span class="label">MSc</span><span>Applied Data Science, University of Essex, 2023–24</span></li>
+          <li><span class="label">BSc</span><span>Electrical and Electronic Engineering, North South University, Dhaka, 2016–20</span></li>
+        </ul>
+      </div>
+
+      <div class="f-fields">
+        <div class="f-field wide">
+          <span class="label">Role in developing and commercialising Loomtrace</span>
+          <p>He leads the product and its core technical build: matching supplier records to real factories, estimating each factory's plausible capacity, and designing the method that reconciles a buyer's orders against that capacity. He also leads the early buyer conversations, which start as research interviews rather than sales pitches.</p>
+        </div>
+        <div class="f-field">
+          <span class="label">Professional background</span>
+          <p>His postgraduate training covered advanced analytics, data visualisation, machine learning and large-scale data technologies, with project work in ETL pipelines, data cleaning and transformation, and data warehouse design.</p>
+        </div>
+        <div class="f-field">
+          <span class="label">Relevant experience and skills</span>
+          <div class="chips"><span>SQL</span><span>Python · Pandas, NumPy, Matplotlib</span><span>R</span><span>Power BI</span><span>ETL pipelines</span><span>Data cleaning and transformation</span><span>Data warehouse design</span></div>
+        </div>
+        <div class="f-field">
+          <span class="label">Project work that rehearses the method</span>
+          <p>A customer-churn analysis that broke an outcome down into weighted contributing factors and presented them to a non-technical audience. A hospital-efficiency analysis that compared units on cost and length of stay after adjusting for case mix. Both were academic projects on supplied datasets.</p>
+        </div>
+        <div class="f-field">
+          <span class="label">Why the engineering degree matters</span>
+          <p>Factory capacity is industrial-engineering arithmetic: workforce, production lines and product mix converted to standard minutes. Training in both engineering and data science places him to own that conversion. Four years of study in Dhaka give him working familiarity with the country where the factories and registry sources are.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="needs">
+      <h3>What the venture needs, and how it is covered</h3>
+      <p>Loomtrace's first asset is technical, and that is where the founder's capability sits. Sector knowledge, enterprise sales and production engineering are gaps, and the plan covers each one rather than relying on the founder alone.</p>
+      <div class="needs-table">
+        <table>
+          <thead><tr><th scope="col">Execution need</th><th scope="col">Founder's capability</th><th scope="col">How it is covered</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">Factory identity and capacity records from English and Bengali public sources</th><td><span class="tag teal">Founder</span><br>ETL, record matching and data warehousing; familiarity with Dhaka</td><td>Built by the founder, with uncertain matches sent to human review</td></tr>
+            <tr><th scope="row">A reconciliation method a compliance lead can follow</th><td><span class="tag teal">Founder</span><br>Breaking outcomes into contributing factors and explaining them to non-technical audiences</td><td>A written method note to accompany the product</td></tr>
+            <tr><th scope="row">Evidence a director can rely on</th><td><span class="tag teal">Founder</span><br>Reproducible analysis and version discipline</td><td>Evidence-file template to be reviewed by legal counsel</td></tr>
+            <tr><th scope="row">Apparel sourcing and compliance knowledge</th><td><span class="tag amber">Gap</span><br>Not a sector insider</td><td>Founder-led buyer interviews; a commercial adviser from UK ethical trade or retail sourcing is being sought; an approach to the authors of the reference study</td></tr>
+            <tr><th scope="row">Enterprise sales to UK retailers</th><td><span class="tag amber">Gap</span><br>None demonstrated yet</td><td>Adviser introductions and a research-interview-first approach; a sales lead hire later in the plan, once funded</td></tr>
+            <tr><th scope="row">Production software engineering and security</th><td><span class="tag amber">Gap</span><br>Postgraduate machine-learning training; no production engineering record</td><td>A planned data engineer hire and a contracted developer; Cyber Essentials before any live buyer data</td></tr>
+            <tr><th scope="row">Leading a small team</th><td><span class="tag amber">Gap</span><br>No prior evidence</td><td>Hiring sequenced to funding, with an adviser as a sounding board</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="note" style="margin-top:1rem"><svg><use href="#i-info"/></svg><span>Advisers, partners and hires listed here are planned. None is in place yet, and none is presented as evidence.</span></p>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq" aria-labelledby="faq-h" style="background:var(--surface);border-block:1px solid var(--line)">
+  <div class="wrap faq">
+    <div class="sec-head" style="margin-bottom:0">
+      <span class="label eyebrow">Questions</span>
+      <h2 id="faq-h">Frequently asked questions.</h2>
+      <p>Short answers for sourcing, compliance and supplier audiences. If your question is not here, raise it in a design-partnership conversation.</p>
+    </div>
+    <div class="faq-list" id="faqList"></div>
+  </div>
+</section>
+
+<!-- CONTACT / DESIGN PARTNERSHIP -->
+<section id="partner" class="band" aria-labelledby="ptn-h">
+  <div class="wrap contact">
+    <div>
+      <div class="sec-head">
+        <span class="label eyebrow">Design partnership</span>
+        <h2 id="ptn-h">Help shape Loomtrace with your own order data.</h2>
+        <p>Loomtrace is looking for a first UK apparel retailer or brand to work with as a design partner. The intended approach is a blind test: you share order history for factories where you already know some outcomes, Loomtrace reviews the orders without seeing those outcomes, and the two are compared against success criteria agreed in writing beforehand.</p>
+      </div>
+      <span class="label" style="display:block;margin-bottom:.9rem">A strong fit usually has</span>
+      <ul class="fit">
+        <li><svg><use href="#i-check"/></svg>A meaningful Bangladesh supplier base</li>
+        <li><svg><use href="#i-check"/></svg>12 to 24 months of digital order records linked to factory identifiers</li>
+        <li><svg><use href="#i-check"/></svg>Experience of a capacity surprise, suspected subcontracting or an audit that did not match reality</li>
+        <li><svg><use href="#i-check"/></svg>One accountable owner in sourcing or ethical trade who will investigate what is raised</li>
+      </ul>
+      <p class="note" style="margin-top:1.5rem"><svg><use href="#i-lock"/></svg><span>Security documentation, a non-disclosure agreement and a data processing agreement would be agreed before any data moves. Factories, exporters, researchers and industry bodies are also welcome to get in touch.</span></p>
+    </div>
+
+    <form class="form" id="contactForm" novalidate>
+      <h3>Start a conversation</h3>
+      <div class="row2">
+        <div class="field"><label for="cf-name">Name</label><input id="cf-name" name="name" autocomplete="name" required><span class="err" id="err-name"></span></div>
+        <div class="field"><label for="cf-org">Organisation</label><input id="cf-org" name="org" autocomplete="organization" required><span class="err" id="err-org"></span></div>
+      </div>
+      <div class="row2">
+        <div class="field"><label for="cf-role">Role</label><input id="cf-role" name="role" autocomplete="organization-title" placeholder="e.g. Head of Ethical Trade"></div>
+        <div class="field"><label for="cf-type">I am interested as</label>
+          <select id="cf-type" name="type">
+            <option>Retailer or brand: design partnership</option>
+            <option>Factory or exporter</option>
+            <option>Data or industry partner</option>
+            <option>Researcher or academic</option>
+            <option>Other</option>
+          </select>
+        </div>
+      </div>
+      <div class="field"><label for="cf-email">Work email</label><input id="cf-email" name="email" type="email" autocomplete="email" required><span class="err" id="err-email"></span></div>
+      <div class="field"><label for="cf-msg">What would you like to discuss?</label><textarea id="cf-msg" name="msg" placeholder="For example: how you handle subcontracting risk today, and what order data you hold."></textarea></div>
+      <button class="btn btn-primary" type="submit" style="justify-self:start">Prepare my message <svg><use href="#i-arrow"/></svg></button>
+      <div class="out" id="formOut" hidden>
+        <p style="font-size:.9rem"><b>Your message is ready.</b> Copy it and send it by email to <span class="email-chip" id="emailChip"></span>. This page does not send it for you.</p>
+        <pre id="formText"></pre>
+        <div class="out-actions"><button type="button" class="btn-sm" id="copyBtn">Copy message</button><span class="muted" id="copyState" style="font-size:.8rem" aria-live="polite"></span></div>
+      </div>
+    </form>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-about">
+        <a class="brand" href="#top"><svg><use href="#logo"/></svg>Loomtrace</a>
+        <p>Buyer-side inference of undeclared sourcing risk in apparel supply chains. A UK-based venture in development, starting with UK buyers sourcing from Bangladesh.</p>
+        <p>Loomtrace is at concept and validation stage. Product descriptions on this site set out intended capabilities. Nothing here is legal advice, and nothing here describes any named supplier.</p>
+      </div>
+    </div>
+    <div class="foot-base"><span>© <span id="yr">2026</span> Loomtrace</span><span>Product preview data is fictional and illustrative.</span></div>
+  </div>
+</footer>
+
+<script src="js/script.js"></script>
+</body>
+</html>
